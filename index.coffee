@@ -18,7 +18,6 @@ allDigits = (str) ->
 numberOfSpaces = (str) ->
   str.replace(/[^\ ]/g, "").length
 
-"""
 `
 function pack(num) {
 var result = '';
@@ -29,7 +28,6 @@ result += String.fromCharCode(num & 0xFF);
 return result;
 };
 `
-"""
 
 exports.write = (stream, data) ->
   stream.write "\x00", "binary"
@@ -39,8 +37,9 @@ exports.write = (stream, data) ->
 exports.close = (stream) ->
   stream.write "" #right?
 
-exports.wsSetup = (server, options) ->
-  _.extend exports.options, options
+exports.createServer = (options) ->
+  server = new Server
+  exports.options = options 
   hostname = options.hostname
   location = options.location || "/"
   port = options.port || 9999
@@ -89,7 +88,6 @@ exports.wsSetup = (server, options) ->
         console.log()
         console.log ret
         stream.write ret, "binary"
-        write stream, "test"
         
         stream.on "data", (data) ->
           data = data.toString()
@@ -104,4 +102,4 @@ exports.wsSetup = (server, options) ->
           "Content-Type: text/html\r\n" +
           "Content-Length: #{content.length}\r\n\r\n" +
           content
-
+  return server
