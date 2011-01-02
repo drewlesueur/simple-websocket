@@ -18,6 +18,7 @@ allDigits = (str) ->
 numberOfSpaces = (str) ->
   str.replace(/[^\ ]/g, "").length
 
+"""
 `
 function pack(num) {
 var result = '';
@@ -28,6 +29,7 @@ result += String.fromCharCode(num & 0xFF);
 return result;
 };
 `
+"""
 
 exports.write = (stream, data) ->
   stream.write "\x00", "binary"
@@ -37,16 +39,7 @@ exports.write = (stream, data) ->
 exports.close = (stream) ->
   stream.write "" #right?
 
-#server = new Server
-#ws.wsSetup server, {port: 9999, "hostname" : test.the.tl}
-#server.on "wsConnection", (stream) ->
-#  stream.on "wsMessage", (message) ->
-#  ws.write stream, message + "say what"
-#server.listen port
-
-
-exports.wsStreamSetup (stream) ->
-exports.wsSetup(server, options)
+exports.wsSetup = (server, options) ->
   _.extend exports.options, options
   hostname = options.hostname
   location = options.location || "/"
@@ -100,15 +93,15 @@ exports.wsSetup(server, options)
         
         stream.on "data", (data) ->
           data = data.toString()
-            data = _.s data, 1, -1
-            stream.emit "wsMessage", data
+          data = _.s data, 1, -1
+          stream.emit "wsMessage", data
 
         server.emit "wsConnection", (stream)
-    else if _.startsWith str, "GET"
-      content = "yo world"
-      stream.write "HTTP/1.1 200 OK\r\n" +
-        "Connection: close\r\n" +
-        "Content-Type: text/html\r\n" +
-        "Content-Length: #{content.length}\r\n\r\n" +
-        content
+      else if _.startsWith str, "GET"
+        content = "yo world"
+        stream.write "HTTP/1.1 200 OK\r\n" +
+          "Connection: close\r\n" +
+          "Content-Type: text/html\r\n" +
+          "Content-Length: #{content.length}\r\n\r\n" +
+          content
 
