@@ -4,12 +4,7 @@ Streami = net.Stream
 Crypto = require "crypto"
 _ = require "underscore"
 root._ = _
-require "zextra/util.js"
-
-hostname = "mcode.the.tl"
-port = 9999
-
-location = "/"
+require "./util.js"
 
 
 allDigits = (str) ->
