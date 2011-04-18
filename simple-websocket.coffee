@@ -42,6 +42,13 @@ class WebSocketServer extends events.EventEmitter
       console.log "LAST IS #{last} is #{last.length} chars long"
       req = str.split "\r\n"
       for line in req
+        if _.startsWith line, "GET"
+          location = line.split(" ")[1]
+        if _.startsWith line, "Host"
+          host = _.s line, "Host: ".length
+          hostInfo = host.split ":"
+          host = hostInfo[0]
+          port = hostInfo[1] || 80 # or 443?
         if _.startsWith line, "Origin:"
           origin = _.s line, "Origin:".length + 1
         if _(line).startsWith "Sec-WebSocket-Key1:"
@@ -65,13 +72,13 @@ class WebSocketServer extends events.EventEmitter
         "Upgrade: WebSocket\r\n" +
         "Connection: Upgrade\r\n" +
         "Sec-WebSocket-Origin: "+origin+"\r\n" +
-        "Sec-WebSocket-Location: ws://#{hostname}:#{port}#{location}" +
+        "Sec-WebSocket-Location: ws://#{host}:#{port}#{location}" +
         "\r\n\r\n" +
         hash.digest("binary")
       console.log()
       console.log ret
       socket.write ret, "binary"
-      socket.removeListener "data", @handleData 
+      #socket.removeListener "data", @handleData 
       webSocket = new WebSocket socket
       @emit "connection", (webSocket)
     else if _.startsWith str, "GET"

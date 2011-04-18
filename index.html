@@ -1,0 +1,24 @@
+<!doctype html>
+<html>
+  <head>
+    <script src="http://inc.the.tl/coffeescript.js"></script>
+    <script src="http://inc.the.tl/jquery.js"></script>
+    <script type="text/coffeescript">
+$(document).ready () ->
+  ws = new WebSocket "ws://b.the.tl:9998/"
+  ws.onopen = () ->
+    console.log "open"
+    ws.send "hahaha"
+  ws.onmessage = (e) ->
+    console.log e.data
+  ws.onclose = (e) ->
+    console.log "closed!!"
+  ws.onerror = (e) ->
+    console.log "error"
+    </script>
+    </head>
+    <body>
+      </body>
+  </html>
+
+
