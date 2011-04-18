@@ -1,12 +1,18 @@
 users = []
-ws = require("simple-websocket")
+ws = require("./simple-websocket.coffee")
 server = ws.createServer
   port: 9998
-  hostname : "bomber.the.tl"
-server.on "wsConnection", (stream) ->
+  hostname : "b.the.tl"
+server.on "connection", (webSocket) ->
   users.push stream
-  stream.on "wsMessage", (message) ->
-    ws.write stream, message + "say what"
+  webSocket.on "message", (message) ->
+    for user in users
+      if user == webSocket then continue
+      user.write message
+  webSocket.on "close", () ->
+    i = _.indexOf(users, websocket)
+    users = users.splice(i, 1)
+console.log "listening on #{ws.options.hostname}:#{ws.options.port}"
 server.listen ws.options.port
 
 setInterval () ->
