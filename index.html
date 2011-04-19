@@ -1,24 +1,34 @@
 <!doctype html>
 <html>
-  <head>
-    <script src="http://inc.the.tl/coffeescript.js"></script>
-    <script src="http://inc.the.tl/jquery.js"></script>
-    <script type="text/coffeescript">
-$(document).ready () ->
-  ws = new WebSocket "ws://b.the.tl:9998/"
-  ws.onopen = () ->
-    console.log "open"
-    ws.send "hahaha"
-  ws.onmessage = (e) ->
-    console.log e.data
-  ws.onclose = (e) ->
-    console.log "closed!!"
-  ws.onerror = (e) ->
-    console.log "error"
-    </script>
-    </head>
-    <body>
-      </body>
-  </html>
+<head>
+<title>
+</title>
+<meta content="yes" name="apple-mobile-web-app-capable" />
+<meta name="viewport" content="width=device-width, user-scalable=no" />
+<script src="http://inc.the.tl/zepto/src/zepto.js"></script>
+<script src="http://inc.the.tl/zepto/src/event.js"></script>
+<script src="http://inc.the.tl/underscore.js"></script>
+<script src="http://inc.the.tl/zepto/src/fx.js"></script>
+<script src="http://inc.the.tl/zepto/src/touch.js"></script>
+<script src="http://inc.the.tl/zepto/src/detect.js"></script>
+<script src="app.js"></script>
+<style>
+* {
+margin:0;
+padding:0;
+font-size: 30px;
+font-weight: bold;
+}
 
 
+
+#wrapper {
+width: 320px;
+}
+</style>
+</head>
+<body>
+<div id="wrapper">
+</div>
+</body>
+</html>
