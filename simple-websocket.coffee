@@ -80,6 +80,9 @@ class WebSocketServer extends events.EventEmitter
       socket.write ret, "binary"
       #socket.removeListener "data", @handleData 
       webSocket = new WebSocket socket
+      console.log "
+        new web socket created
+      "
       @emit "connection", (webSocket)
     else if _.startsWith str, "GET"
       content = "yo world"
@@ -91,15 +94,21 @@ class WebSocketServer extends events.EventEmitter
 
 class WebSocket extends events.EventEmitter
   constructor: (@socket) ->
-    @socket.on "data", (data) => @handleData
-    @socket.on "end", () => @handleEnd
-    @socket.on "error", () => @handleError
+    @socket.on "data", @handleData
+    @socket.on "end", @handleEnd
+    @socket.on "error", @handleError
     @emit "open"
   handleError: (exception) => @emit "error", exception
   handleEnd: (data) => @emit "close"
   handleData: (data) =>
+    
     data = data.toString()
     data = _.s data, 1, -1
+    console.log "
+    
+      THERE IS A MESSAGE
+
+    "
     @emit "message", data
   write: (data) ->
     @socket.write "\x00", "binary"
