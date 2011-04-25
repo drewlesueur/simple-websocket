@@ -5,7 +5,8 @@ Server = net.Server
 Stream = net.Socket
 Crypto = require "crypto"
 _ = require "underscore"
-require("/home/drew/drews-mixins/drews-mixins.coffee").mixinWith(_)
+drews = require "drews-mixins"
+_.mixin drews
 
 allDigits = (str) ->
   str.replace(/\D/g, "") - 0
@@ -21,6 +22,7 @@ pack = (num) ->
   result += String.fromCharCode(num & 0xFF)
   return result
 
+#maybe have it extend net.Server?
 class WebSocketServer extends events.EventEmitter
   constructor: (args...) ->
     if args[0] instanceof Server
