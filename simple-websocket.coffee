@@ -5,8 +5,7 @@ Server = net.Server
 Stream = net.Socket
 Crypto = require "crypto"
 _ = require "underscore"
-drews = require "drews-mixins"
-_.mixin drews
+require("drews-mixins") _
 
 allDigits = (str) ->
   str.replace(/\D/g, "") - 0
